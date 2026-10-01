@@ -1,6 +1,7 @@
 // TH2 | 23689541 | PHẠM KIÊN CƯỜNG | #647961
 import React from 'react';
 import { StatusBar } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { NavigationContainer } from '@react-navigation/native';
@@ -17,14 +18,17 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
+  console.log('[App] Mounting KTXGo App for 23689541...');
   return (
-    <SafeAreaProvider>
-      <QueryClientProvider client={queryClient}>
-        <StatusBar barStyle="dark-content" />
-        <NavigationContainer>
-          <RootNavigator />
-        </NavigationContainer>
-      </QueryClientProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider style={{ flex: 1 }}>
+        <QueryClientProvider client={queryClient}>
+          <StatusBar barStyle="dark-content" />
+          <NavigationContainer>
+            <RootNavigator />
+          </NavigationContainer>
+        </QueryClientProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }

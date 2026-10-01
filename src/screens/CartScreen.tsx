@@ -123,7 +123,20 @@ export const CartScreen = () => {
           <View style={styles.itemsList}>
             {items.map((item: CartItem) => (
               <View key={`${STUDENT.mssv}-${item.id}`} style={styles.itemRow}>
-                <Image source={{ uri: item.image }} style={styles.itemImage} resizeMode="contain" />
+                <View style={styles.itemImageWrapper}>
+                  <Text style={styles.itemEmoji}>
+                    {item.title.toLowerCase().includes('balo') || item.title.toLowerCase().includes('pack')
+                      ? '🎒'
+                      : item.title.toLowerCase().includes('áo') || item.title.toLowerCase().includes('thun')
+                      ? '👕'
+                      : item.title.toLowerCase().includes('vòng') || item.title.toLowerCase().includes('nhẫn')
+                      ? '💍'
+                      : item.title.toLowerCase().includes('ssd') || item.title.toLowerCase().includes('cứng')
+                      ? '💻'
+                      : '🛍️'}
+                  </Text>
+                  <Image source={{ uri: item.image }} style={styles.itemImage} resizeMode="contain" />
+                </View>
 
                 <View style={styles.itemDetails}>
                   <Text style={styles.itemTitle} numberOfLines={2}>
@@ -298,12 +311,28 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.border,
     ...theme.shadow.card,
   },
-  itemImage: {
+  itemImageWrapper: {
     width: 50,
     height: 50,
     borderRadius: theme.borderRadius.sm,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F1F5F9',
     marginRight: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  itemEmoji: {
+    fontSize: 24,
+  },
+  itemImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: '100%',
+    height: '100%',
   },
   itemDetails: {
     flex: 1,

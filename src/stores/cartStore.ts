@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { safeStorage } from '../utils/safeStorage';
 import { STUDENT, PRICE_MULTIPLIER } from '@constants/student';
 import { Product } from '@services/productApi';
 
@@ -89,7 +89,7 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: `ktxgo-cart-${STUDENT.mssv}`,
-      storage: createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => safeStorage),
     }
   )
 );

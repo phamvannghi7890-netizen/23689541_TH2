@@ -87,19 +87,56 @@ export const MainTabs = () => {
         },
       }}
     >
-      {isShopFirst ? (
-        <>
-          {shopScreen}
-          {cartScreen}
-          {meScreen}
-        </>
-      ) : (
-        <>
-          {cartScreen}
-          {shopScreen}
-          {meScreen}
-        </>
+      {isShopFirst && (
+        <Tab.Screen
+          name="Shop"
+          component={ShopStack}
+          options={{
+            tabBarLabel: 'Cửa hàng',
+            tabBarIcon: ({ color, focused }) => (
+              <Text style={[styles.tabIcon, { color }]}>{focused ? '🛍️' : '🏬'}</Text>
+            ),
+          }}
+        />
       )}
+
+      <Tab.Screen
+        name="Cart"
+        component={CartScreen}
+        options={{
+          tabBarLabel: 'Giỏ hàng',
+          tabBarBadge: totalQty > 0 ? totalQty : undefined,
+          tabBarBadgeStyle: {
+            backgroundColor: theme.colors.secondary,
+            color: '#FFFFFF',
+            fontSize: 10,
+            fontWeight: '700',
+          },
+          tabBarIcon: ({ color }) => <Text style={[styles.tabIcon, { color }]}>🛒</Text>,
+        }}
+      />
+
+      {!isShopFirst && (
+        <Tab.Screen
+          name="Shop"
+          component={ShopStack}
+          options={{
+            tabBarLabel: 'Cửa hàng',
+            tabBarIcon: ({ color, focused }) => (
+              <Text style={[styles.tabIcon, { color }]}>{focused ? '🛍️' : '🏬'}</Text>
+            ),
+          }}
+        />
+      )}
+
+      <Tab.Screen
+        name="Me"
+        component={MeScreen}
+        options={{
+          tabBarLabel: 'Tôi',
+          tabBarIcon: ({ color }) => <Text style={[styles.tabIcon, { color }]}>👤</Text>,
+        }}
+      />
     </Tab.Navigator>
   );
 };

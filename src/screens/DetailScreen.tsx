@@ -116,6 +116,19 @@ export const DetailScreen = () => {
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         {/* Product Image */}
         <View style={styles.imageCard}>
+          <View style={styles.imageFallbackContainer}>
+            <Text style={styles.imageFallbackEmoji}>
+              {product.category?.toLowerCase().includes('văn phòng') || product.category?.toLowerCase().includes('pack')
+                ? '🎒'
+                : product.category?.toLowerCase().includes('thời trang') || product.category?.toLowerCase().includes('cloth')
+                ? '👕'
+                : product.category?.toLowerCase().includes('phụ kiện') || product.category?.toLowerCase().includes('jewel')
+                ? '💍'
+                : product.category?.toLowerCase().includes('điện tử') || product.category?.toLowerCase().includes('electr')
+                ? '💻'
+                : '🛍️'}
+            </Text>
+          </View>
           <Image source={{ uri: product.image }} style={styles.image} resizeMode="contain" />
           <View style={styles.categoryBadge}>
             <Text style={styles.categoryText}>{product.category}</Text>
@@ -258,6 +271,20 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.border,
     position: 'relative',
     ...theme.shadow.card,
+  },
+  imageFallbackContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: theme.borderRadius.xl,
+  },
+  imageFallbackEmoji: {
+    fontSize: 72,
   },
   image: {
     width: '85%',

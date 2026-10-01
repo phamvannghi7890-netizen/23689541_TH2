@@ -42,6 +42,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) =>
     addItem(product);
   };
 
+  const [imgLoaded, setImgLoaded] = React.useState(false);
+
+  const getCategoryIcon = (category: string) => {
+    const c = (category || '').toLowerCase();
+    if (c.includes('văn phòng') || c.includes('pack') || c.includes('balo')) return '🎒';
+    if (c.includes('thời trang') || c.includes('clothing') || c.includes('fit') || c.includes('áo')) return '👕';
+    if (c.includes('phụ kiện') || c.includes('jewelery') || c.includes('vòng') || c.includes('nhẫn') || c.includes('tai')) return '💍';
+    if (c.includes('điện tử') || c.includes('electronic') || c.includes('ssd') || c.includes('cứng') || c.includes('drive')) return '💻';
+    return '🛍️';
+  };
+
   return (
     <TouchableOpacity
       style={styles.card}
@@ -51,10 +62,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) =>
       accessibilityLabel={`Sản phẩm ${product.title}`}
     >
       <View style={styles.imageContainer}>
+        {!imgLoaded && (
+          <View style={styles.fallbackContainer}>
+            <Text style={styles.fallbackEmoji}>{getCategoryIcon(product.category)}</Text>
+          </View>
+        )}
         <Image
           source={{ uri: product.image }}
-          style={styles.image}
+          style={[styles.image, !imgLoaded && styles.hiddenImage]}
           resizeMode="contain"
+          onLoad={() => setImgLoaded(true)}
+          onError={() => setImgLoaded(false)}
         />
         <View style={styles.categoryBadge}>
           <Text style={styles.categoryText} numberOfLines={1}>
@@ -172,5 +190,20 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     lineHeight: 20,
     textAlign: 'center',
+  },
+  fallbackContainer: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F8FAFC',
+  },
+  fallbackEmoji: {
+    fontSize: 44,
+  },
+  hiddenImage: {
+    width: 0,
+    height: 0,
+    opacity: 0,
   },
 });
