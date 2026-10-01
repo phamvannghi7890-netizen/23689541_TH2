@@ -18,6 +18,7 @@ import { theme } from '@constants/theme';
 import { productApi } from '@services/productApi';
 import { useCartStore } from '@stores/cartStore';
 import { Watermark } from '@components/Watermark';
+import { getProductEmoji } from '../utils/productHelper';
 
 export const DetailScreen = () => {
   const route = useRoute<any>();
@@ -91,7 +92,10 @@ export const DetailScreen = () => {
     );
   }
 
-  const priceVnd = Math.round(product.price * PRICE_MULTIPLIER);
+  const priceVnd =
+    product.price > 1000
+      ? Math.round(product.price)
+      : Math.round(product.price * PRICE_MULTIPLIER);
   const formattedPrice = priceVnd.toLocaleString('vi-VN') + ' đ';
 
   return (
@@ -118,15 +122,7 @@ export const DetailScreen = () => {
         <View style={styles.imageCard}>
           <View style={styles.imageFallbackContainer}>
             <Text style={styles.imageFallbackEmoji}>
-              {product.category?.toLowerCase().includes('văn phòng') || product.category?.toLowerCase().includes('pack')
-                ? '🎒'
-                : product.category?.toLowerCase().includes('thời trang') || product.category?.toLowerCase().includes('cloth')
-                ? '👕'
-                : product.category?.toLowerCase().includes('phụ kiện') || product.category?.toLowerCase().includes('jewel')
-                ? '💍'
-                : product.category?.toLowerCase().includes('điện tử') || product.category?.toLowerCase().includes('electr')
-                ? '💻'
-                : '🛍️'}
+              {getProductEmoji(product.title, product.category)}
             </Text>
           </View>
           <Image source={{ uri: product.image }} style={styles.image} resizeMode="contain" />

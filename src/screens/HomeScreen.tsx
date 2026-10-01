@@ -34,7 +34,7 @@ export const HomeScreen = () => {
     isRefetching,
   } = useQuery({
     queryKey: ['products'],
-    queryFn: () => productApi.getProducts(12),
+    queryFn: () => productApi.getProducts(8),
     staleTime: STALE_TIME_MS,
   });
 

@@ -16,6 +16,7 @@ import { theme } from '@constants/theme';
 import { useCartStore, CartItem } from '@stores/cartStore';
 import { useCampusLocation } from '@hooks/useCampusLocation';
 import { Watermark } from '@components/Watermark';
+import { getProductEmoji } from '../utils/productHelper';
 
 export const CartScreen = () => {
   const navigation = useNavigation<any>();
@@ -125,15 +126,7 @@ export const CartScreen = () => {
               <View key={`${STUDENT.mssv}-${item.id}`} style={styles.itemRow}>
                 <View style={styles.itemImageWrapper}>
                   <Text style={styles.itemEmoji}>
-                    {item.title.toLowerCase().includes('balo') || item.title.toLowerCase().includes('pack')
-                      ? '🎒'
-                      : item.title.toLowerCase().includes('áo') || item.title.toLowerCase().includes('thun')
-                      ? '👕'
-                      : item.title.toLowerCase().includes('vòng') || item.title.toLowerCase().includes('nhẫn')
-                      ? '💍'
-                      : item.title.toLowerCase().includes('ssd') || item.title.toLowerCase().includes('cứng')
-                      ? '💻'
-                      : '🛍️'}
+                    {getProductEmoji(item.title)}
                   </Text>
                   <Image source={{ uri: item.image }} style={styles.itemImage} resizeMode="contain" />
                 </View>

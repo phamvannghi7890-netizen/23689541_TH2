@@ -13,6 +13,8 @@ import { PRICE_MULTIPLIER, VARIANT } from '@constants/student';
 import { theme } from '@constants/theme';
 import { useCartStore } from '@stores/cartStore';
 
+import { getProductEmoji } from '../utils/productHelper';
+
 interface ProductCardProps {
   product: Product;
   onPress: () => void;
@@ -24,7 +26,11 @@ const CARD_WIDTH = (width - 36) / 2; // 2 cột với padding đều đặn
 export const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) => {
   const addItem = useCartStore((state) => state.addItem);
 
-  const priceVnd = Math.round(product.price * PRICE_MULTIPLIER);
+  // Giá thị trường (nếu > 1000 là giá VND trực tiếp, ngược lại nhân PRICE_MULTIPLIER)
+  const priceVnd =
+    product.price > 1000
+      ? Math.round(product.price)
+      : Math.round(product.price * PRICE_MULTIPLIER);
   const formattedPrice = priceVnd.toLocaleString('vi-VN') + ' đ';
 
   const handleAddToCart = async () => {
@@ -44,15 +50,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) =>
 
   const [imgLoaded, setImgLoaded] = React.useState(false);
 
-  const getCategoryIcon = (category: string) => {
-    const c = (category || '').toLowerCase();
-    if (c.includes('văn phòng') || c.includes('pack') || c.includes('balo')) return '🎒';
-    if (c.includes('thời trang') || c.includes('clothing') || c.includes('fit') || c.includes('áo')) return '👕';
-    if (c.includes('phụ kiện') || c.includes('jewelery') || c.includes('vòng') || c.includes('nhẫn') || c.includes('tai')) return '💍';
-    if (c.includes('điện tử') || c.includes('electronic') || c.includes('ssd') || c.includes('cứng') || c.includes('drive')) return '💻';
-    return '🛍️';
-  };
-
   return (
     <TouchableOpacity
       style={styles.card}
@@ -64,7 +61,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) =>
       <View style={styles.imageContainer}>
         {!imgLoaded && (
           <View style={styles.fallbackContainer}>
-            <Text style={styles.fallbackEmoji}>{getCategoryIcon(product.category)}</Text>
+            <Text style={styles.fallbackEmoji}>
+              {getProductEmoji(product.title, product.category)}
+            </Text>
           </View>
         )}
         <Image

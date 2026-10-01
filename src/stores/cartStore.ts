@@ -29,7 +29,10 @@ export const useCartStore = create<CartState>()(
       items: [],
 
       addItem: (product: Product) => {
-        const convertedPrice = Math.round(product.price * PRICE_MULTIPLIER);
+        const convertedPrice =
+          product.price > 1000
+            ? Math.round(product.price)
+            : Math.round(product.price * PRICE_MULTIPLIER);
         set((state) => {
           const existingIndex = state.items.findIndex((i) => i.id === product.id);
           if (existingIndex > -1) {
